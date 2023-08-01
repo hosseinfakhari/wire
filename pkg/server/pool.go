@@ -7,6 +7,13 @@ type ServerPool struct {
 	current  uint64
 }
 
+func NewServerPool() *ServerPool {
+	return &ServerPool{
+		backends: make([]*Backend, 0),
+		current:  uint64(0),
+	}
+}
+
 func (s *ServerPool) NextIndex() int {
 	return int(atomic.AddUint64(&s.current, 1) % uint64(len(s.backends)))
 }
